@@ -1,0 +1,47 @@
+###> symfony/framework-bundle ###
+/.env.local
+/.env.*.local
+/.env.local.php
+/public/api/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> friendsofphp/php-cs-fixer ###
+.php_cs
+.php_cs.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+/.idea/
+
+/docker-compose.override.yaml
+/docker-compose.override.yml
+
+###> symfony/phpunit-bridge ###
+.phpunit
+/phpunit.xml
+###< symfony/phpunit-bridge ###
+
+###> mailjet ###
+/config/app/mailjet/*
+/config/app/mailjet/public_key
+/config/app/mailjet/secret_key
+###< mailjet ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> behat/symfony2-extension ###
+behat.yml
+###< behat/symfony2-extension ###
+
+supervisord.pid
+
+.DS_Store
+docker/.DS_Store
