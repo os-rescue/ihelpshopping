@@ -27,6 +27,7 @@ Feature: Get Users
          "title",
          "phone_number",
          "mobile_number",
+         "account_type",
          "admin"
        ],
        "properties": {
@@ -132,6 +133,15 @@ Feature: Get Users
            "type": ["string", "null"],
            "examples": [
              "+0987654321"
+           ]
+         },
+         "account_type": {
+           "$id": "#/properties/account_type",
+           "title": "The Account_type Schema",
+           "type": ["string", "null"],
+           "enum": ["requester", "helper"],
+           "examples": [
+             "requester"
            ]
          },
          "admin": {

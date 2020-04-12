@@ -21,8 +21,8 @@ users:
         enabled: 1
         first_name: User1
         last_name: Test1
-        phone_number: "+361234567890"
-        mobile_number: "+331234567890"
+        phone_number: "+361234567899"
+        mobile_number: "+361234567899"
         address: Test address 1
     user_2:
         email: user2@test.com
@@ -30,8 +30,8 @@ users:
         enabled: 1
         first_name: User2
         last_name: Test2
-        phone_number: "+411234567890"
-        mobile_number: "+451234567890"
+        phone_number: "+411234567898"
+        mobile_number: "+451234567897"
         address: Test address 2
     user_3:
         email: user3@test.com
@@ -40,7 +40,7 @@ users:
         first_name: User3
         middle_name: Foo
         last_name: Test3
-        phone_number: "+411234567890"
-        mobile_number: "+451234567890"
+        phone_number: "+411234567896"
+        mobile_number: "+451234567895"
         address: Test address 2
         confirmation_token: foobar

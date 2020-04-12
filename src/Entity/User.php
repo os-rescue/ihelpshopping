@@ -43,6 +43,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *      },
  *     itemOperations={
  *         "get"={"normalization_context"={"groups"={"item_user_normalized"}}},
+ *         "put",
  *     }
  * )
  * @ORM\Table(
@@ -75,6 +76,9 @@ use Symfony\Component\Validator\Constraints\Uuid;
  */
 class User extends BaseUser
 {
+    public const ACCOUNT_TYPE_HELPER = 'helper';
+    public const ACCOUNT_TYPE_REQUESTER = 'requester';
+
     use Timestampable;
     use UserNameTrait;
 
@@ -175,6 +179,13 @@ class User extends BaseUser
     protected $mobileNumber;
 
     /**
+     * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Choice({User::ACCOUNT_TYPE_HELPER, User::ACCOUNT_TYPE_REQUESTER}, message="invalid")
+     * @Groups({"user_model", "item_user_normalized"})
+     */
+    protected $accountType;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -191,6 +202,7 @@ class User extends BaseUser
         parent::__construct();
 
         $this->roles[] = UserInterface::ROLE_DEFAULT;
+        $this->enabled = true;
     }
 
     /**
@@ -273,6 +285,18 @@ class User extends BaseUser
     public function setMobileNumber(?string $mobileNumber): self
     {
         $this->mobileNumber = str_replace(' ', '', $mobileNumber);
+
+        return $this;
+    }
+
+    public function getAccountType(): ?string
+    {
+        return $this->accountType;
+    }
+
+    public function setAccountType(?string $accountType): self
+    {
+        $this->accountType = $accountType;
 
         return $this;
     }

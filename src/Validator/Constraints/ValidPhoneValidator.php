@@ -2,7 +2,6 @@
 
 namespace IHelpShopping\Validator\Constraints;
 
-use IHelpShopping\Entity\User;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 

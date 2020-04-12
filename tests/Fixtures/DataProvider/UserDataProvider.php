@@ -2,16 +2,16 @@
 
 namespace IHelpShopping\Tests\DataProvider;
 
+use Doctrine\Persistence\ManagerRegistry;
 use IHelpShopping\Entity\User;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 final class UserDataProvider
 {
     private $repository;
 
-    public function __construct(RegistryInterface $doctrine)
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->repository = $doctrine->getManager()->getRepository(User::class);
+        $this->repository = $registry->getManager()->getRepository(User::class);
     }
 
     public function findBy(array $creteria): array
