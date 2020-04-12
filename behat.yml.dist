@@ -8,6 +8,30 @@ default:
             jwtManager: '@lexik_jwt_authentication.jwt_manager'
         - Behatch\Context\JsonContext
         - Behatch\Context\RestContext
+        - ShoppingItemContext:
+            doctrine: '@doctrine'
+    user:
+      contexts:
+        - FeatureContext:
+            kernel: '@kernel'
+            doctrine: '@doctrine'
+            jwtManager: '@lexik_jwt_authentication.jwt_manager'
+        - Behatch\Context\JsonContext
+        - Behatch\Context\RestContext
+      filters:
+        tags: '@get_users, @update_user'
+    shopping_item:
+      contexts:
+        - FeatureContext:
+            kernel: '@kernel'
+            doctrine: '@doctrine'
+            jwtManager: '@lexik_jwt_authentication.jwt_manager'
+        - Behatch\Context\JsonContext
+        - Behatch\Context\RestContext
+        - ShoppingItemContext:
+            doctrine: '@doctrine'
+      filters:
+        tags: '@create_shopping_item, @update_shopping_item'
 
   extensions:
     Behat\Symfony2Extension:
