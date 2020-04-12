@@ -1,0 +1,21 @@
+{% extends 'base_email.html.twig' %}
+{% block subject %}
+    {%- autoescape false -%}
+        {{ 'password.changing.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block title %}
+    {%- autoescape false -%}
+        {{ 'password.changing.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body %}
+    {% embed 'partial/main_email.html.twig'%}
+        {% block main_content %}
+            {% include 'partial/block_content.html.twig' with {'greeting': true, 'user': user, 'content' : 'password.changing.message'|trans } %}
+            {% include 'partial/no_reply_notice_email.html.twig'%}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

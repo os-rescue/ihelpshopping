@@ -1,0 +1,31 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    IHelpShopping\Tests\DataProvider\:
+        resource: '../tests/Fixtures/DataProvider/*'
+
+    test.doctrine.database_drop_command:
+        alias: doctrine.database_drop_command
+
+    test.doctrine.database_create_command:
+        alias: doctrine.database_create_command
+
+    test.doctrine.schema_create_command:
+        alias: doctrine.schema_create_command
+
+    test.doctrine.fixtures_load_command:
+        alias: doctrine.fixtures_load_command
+
+    API\UserBundle\Tests\Common\TestEmailListener:
+        tags:
+          - { name: swiftmailer.default.plugin }
+
+    test.API\UserBundle\Tests\Common\TestEventDispatcher:
+        class: API\UserBundle\Tests\Common\TestEventDispatcher
+        parent: event_dispatcher
+        public: true
+        autowire: false
+        autoconfigure: false

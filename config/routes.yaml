@@ -1,0 +1,15 @@
+api_user:
+    resource: "@APIUserBundle/Controller/"
+    type:     annotation
+
+gesdinet_jwt_refresh_token:
+    path:     /api/token/refresh
+    defaults: { _controller: gesdinet.jwtrefreshtoken::refresh }
+
+api_login_check:
+    path: /api/login_check
+
+swagger_ui:
+    path:       /api/swagger
+    controller: api_platform.swagger.action.ui
+    condition: "'%platform_env%' !== 'prod'"

@@ -1,0 +1,24 @@
+{% extends 'base_email.html.twig' %}
+{% block subject %}
+    {%- autoescape false -%}
+        {{ 'password.resetting.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block title %}
+    {%- autoescape false -%}
+        {{ 'password.resetting.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body %}
+    {% embed 'partial/main_email.html.twig'%}
+        {% block main_content %}
+            {% include 'partial/block_content.html.twig' with {'greeting': true, 'user': user, 'content' : 'password.resetting.message'|trans } %}
+            {% include 'partial/block_button.html.twig' with {'link': confirmationUrl, 'title_btn': 'password.resetting.button_title'} %}
+            {% include 'partial/block_link.html.twig' with {'link': confirmationUrl, 'description': 'password.resetting.notice_button'} %}
+            {% include 'partial/block_content.html.twig' with {'content' : 'password.resetting.disclaimer'|trans } %}
+            {% include 'partial/no_reply_notice_email.html.twig'%}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

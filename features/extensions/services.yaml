@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    IHelpShopping\BehatExtension\EventListener\TokenListener:
+        arguments:
+            $kernel: '@symfony2_extension.kernel'
+        tags:
+            - { name: 'event_dispatcher.subscriber' }

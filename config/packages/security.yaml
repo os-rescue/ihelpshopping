@@ -1,0 +1,96 @@
+#dunglas_angular_csrf:
+#    cookie:
+#        set_on:
+#            - { path: ^/api/$ }
+#            - { route: ^api, methods: [GET, HEAD] }
+#    secure:
+#        - { path: ^/api, methods: [POST, PUT, DELETE] }
+#        - { route: ^api_ }
+#    exclude:
+#        - { path: ^/api, methods: [GET] }
+#        - { route: ^api, methods: [GET] }
+
+security:
+    encoders:
+        IHelpShopping\Entity\User:
+            algorithm: 'auto'
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        app_db_provider:
+            entity:
+                class: IHelpShopping\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/api/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        swagger:
+            pattern:  ^/api/swagger
+            stateless: true
+            anonymous: true
+
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider: app_db_provider
+            user_checker: API\UserBundle\Security\UserChecker
+            json_login:
+                check_path: /api/login_check
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        refresh:
+            pattern:  ^/api/token/refresh
+            stateless: true
+            anonymous: true
+
+        reset_password_request:
+            pattern:  /api/reset-password-request
+            stateless: true
+            anonymous: true
+
+        reset_password:
+            pattern:  ^/api/reset-password
+            stateless: true
+            anonymous: true
+
+        confirm_email:
+            pattern:  ^/api/confirm
+            stateless: true
+            anonymous: true
+
+        get_user_by_token:
+            pattern:  ^/api/users/get-data-by-token
+            stateless: true
+            anonymous: true
+
+        api:
+            pattern: ^/api
+            provider: app_db_provider
+            stateless: true
+            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+            logout:
+                path: /api/logout
+                success_handler: API\UserBundle\EventListener\LogoutListener
+
+    access_control:
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/swagger, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/confirm, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/reset-password-request, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users/get-data-by-token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

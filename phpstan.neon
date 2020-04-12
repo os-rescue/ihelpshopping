@@ -1,0 +1,6 @@
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    excludes_analyse:
+        - %currentWorkingDirectory%/src/Migrations/*
+        - %currentWorkingDirectory%/tests/*
+        - %currentWorkingDirectory%/src/Bundle/user-bundle/Tests/*

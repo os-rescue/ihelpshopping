@@ -1,0 +1,23 @@
+{% extends 'base_email.html.twig' %}
+{% block subject %}
+    {%- autoescape false -%}
+        {{ 'email.updating.email.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block title %}
+    {%- autoescape false -%}
+        {{ 'email.updating.email.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body %}
+    {% embed 'partial/main_email.html.twig'%}
+        {% block main_content %}
+            {% include 'partial/block_content.html.twig' with {'greeting': true, 'user': user, 'content' : 'email.updating.email.message'|trans } %}
+            {% include 'partial/block_button.html.twig' with {'link': confirmationUrl, 'title_btn': 'email.updating.email.button_title'} %}
+            {% include 'partial/block_link.html.twig' with {'link': confirmationUrl, 'description': 'email.updating.email.notice_button'} %}
+            {% include 'partial/no_reply_notice_email.html.twig'%}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

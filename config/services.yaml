@@ -1,0 +1,84 @@
+parameters:
+    locale: 'en'
+    default_timezone: 'Europe/Berlin'
+    platform_env: '%env(IHS_PLATFORM_ENV)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    IHelpShopping\:
+        resource: '../src/*'
+        exclude:
+            - '../src/{Entity,Migrations,Tests,Event,Enum,Dto}'
+            - '../src/Bundle/user-bundle/{DependencyInjection,Model,Event,Tests}'
+
+    IHelpShopping\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    API\UserBundle\Controller\:
+        resource: '../src/Bundle/user-bundle/Controller'
+        tags: ['controller.service_arguments']
+
+    gedmo.listener.timestampable:
+        class: Gedmo\Timestampable\TimestampableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    gedmo.listener.softdeleteable:
+        class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    IHelpShopping\Controller\ControllerSwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: [ '@IHelpShopping\Controller\ControllerSwaggerDecorator.inner']
+        autoconfigure: false
+        tags:
+            - { name: 'serializer.normalizer', priority: 18 }
+
+    IHelpShopping\EventListener\Security\AuthenticationSuccessListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    IHelpShopping\EventListener\User\UserEmailListener:
+        tags:
+            - { name: doctrine.event_subscriber, event: onFlush }
+
+    IHelpShopping\Mailer\UserMailer:
+        decorates: API\UserBundle\Mailer\Mailer
+        arguments:
+            $mailer: '@IHelpShopping\Mailer\UserMailer.inner'
+            $parameters: '%api_user.mailer.parameters%'
+        tags:
+            - { name: api_user.requires_swift }
+
+    Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter: ~
+    Symfony\Component\Security\Core\User\UserCheckerInterface: '@API\UserBundle\Security\UserChecker'
+    Symfony\Contracts\Translation\LocaleAwareInterface: '@translator'
+
+    Mailjet\Client:
+        arguments:
+            - '%env(MAILJET_PUBLIC_KEY)%'
+            - '%env(MAILJET_SECRET_KEY)%'
+
+    mailjet.message_format:
+        class: Mailjet\MailjetSwiftMailer\SwiftMailer\MessageFormat\MessagePayloadV31
+
+    swiftmailer.transport.eventdispatcher.mailjet:
+        class: Swift_Events_SimpleEventDispatcher
+
+    swiftmailer.mailer.transport.mailjet:
+        class: Mailjet\MailjetSwiftMailer\SwiftMailer\MailjetTransport
+        public: true
+        arguments:
+            - '@swiftmailer.transport.eventdispatcher.mailjet'
+            - '%env(MAILJET_PUBLIC_KEY)%'
+            - '%env(MAILJET_SECRET_KEY)%'

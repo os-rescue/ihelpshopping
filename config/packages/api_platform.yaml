@@ -1,0 +1,20 @@
+api_platform:
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Entity'
+    swagger:
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    name_converter: 'Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter'
+    eager_loading:
+        enabled: true
+        max_joins: 10
+        force_eager: true
+    collection:
+        pagination:
+            maximum_items_per_page: 30
+    formats:
+        json:     ['application/json']
+        jsonld:   ['application/ld+json']

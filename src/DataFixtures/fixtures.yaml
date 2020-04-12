@@ -1,0 +1,46 @@
+super_admin_users:
+    admin_1:
+        email: admin1@test.com
+        plain_password: AAAbbb111#
+        enabled: 1
+        first_name: User1
+        last_name: Test1
+        role: ROLE_ADMIN
+    admin_2:
+        email: admin2@test.com
+        plain_password: AAAbbb111#
+        enabled: 1
+        first_name: User2
+        last_name: Test2
+        role: ROLE_ADMIN
+
+users:
+    user_1:
+        email: user1@test.com
+        plain_password: AAAbbb111#
+        enabled: 1
+        first_name: User1
+        last_name: Test1
+        phone_number: "+361234567890"
+        mobile_number: "+331234567890"
+        address: Test address 1
+    user_2:
+        email: user2@test.com
+        plain_password: AAAbbb111#
+        enabled: 1
+        first_name: User2
+        last_name: Test2
+        phone_number: "+411234567890"
+        mobile_number: "+451234567890"
+        address: Test address 2
+    user_3:
+        email: user3@test.com
+        plain_password: AAAbbb111#
+        enabled: 1
+        first_name: User3
+        middle_name: Foo
+        last_name: Test3
+        phone_number: "+411234567890"
+        mobile_number: "+451234567890"
+        address: Test address 2
+        confirmation_token: foobar

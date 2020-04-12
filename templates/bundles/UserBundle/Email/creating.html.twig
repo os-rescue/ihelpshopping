@@ -1,0 +1,72 @@
+{% extends 'base_email.html.twig' %}
+{% block subject %}
+    {%- autoescape false -%}
+        {{ 'email.creating.email.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block title %}
+    {%- autoescape false -%}
+        {{ 'email.creating.email.subject'|trans({'%name%': user}) }}
+    {%- endautoescape -%}
+{% endblock %}
+
+{% block body %}
+    {% embed 'partial/main_email.html.twig'%}
+        {% block main_content %}
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
+                <tbody class="mcnTextBlockOuter">
+                <tr>
+                    <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
+                        <!--[if mso]>
+                        <table align="left" border="0" cellspacing="0" cellpadding="0" width="100%" style="width:100%;">
+                            <tr>
+                        <![endif]-->
+
+                        <!--[if mso]>
+                        <td valign="top" width="600" style="width:600px;">
+                        <![endif]-->
+                        <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
+                            <tbody>
+                            <tr>
+                                <td valign="top" class="mcnTextContent" style="padding: 0px 18px 9px; font-size: 14px; font-style: normal; font-weight: normal;">
+                                    {% include 'partial/greatings_email.html.twig' with {'name': user} %}
+                                    <p style="font-size: 24px; font-style: normal; font-weight: 300;">
+                                        {% autoescape false %}
+                                            {{ 'email.creating.email.message_top'|trans }}
+                                        {% endautoescape %}
+                                    </p>
+                                    <p style="font-size: 14px; font-style: normal; font-weight: 300; padding-top: 8px;">
+                                        {% autoescape false %}
+                                            {{ 'email.creating.email.message'|trans }}
+                                        {% endautoescape %}
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!--[if mso]>
+                        </td>
+                        <![endif]-->
+
+                        <!--[if mso]>
+                        </tr>
+                        </table>
+                        <![endif]-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            {% include 'partial/block_button.html.twig' with {'link': confirmationUrl, 'title_btn': 'email.creating.email.button_title'} %}
+            {% include 'partial/block_link.html.twig' with {
+                'link': confirmationUrl,
+                'description': 'email.creating.email.notice_button',
+                'notice': 'email.creating.email.notice_issues'
+            } %}
+            {% include 'partial/signature_mail.html.twig'%}
+            {% include 'partial/block_divider.html.twig'%}
+            {% include 'partial/block_content.html.twig' with {'content' : 'email.creating.email.disclaimer'|trans } %}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

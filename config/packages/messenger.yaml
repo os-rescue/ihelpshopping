@@ -1,0 +1,12 @@
+framework:
+    messenger:
+        transports:
+            amqp_user_account: '%env(MESSENGER_TRANSPORT_DSN_USER_ACCOUNT)%'
+        routing:
+            'API\UserBundle\Entity\ResetPasswordRequest': amqp_user_account
+            'API\UserBundle\Message\UserEmailUpdate': amqp_user_account
+        default_bus: messenger.bus.user_account
+        buses:
+            messenger.bus.user_account:
+                middleware:
+                    - IHelpShopping\Middleware\NoRetryMessageMiddleware

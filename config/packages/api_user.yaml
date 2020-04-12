@@ -1,0 +1,6 @@
+api_user:
+    user_class: IHelpShopping\Entity\User
+    login_credential: email
+    from_email:
+        address: !php/const IHelpShopping\Enum\EmailAddress::I_HELP_SHOPPING_EMAIL
+        sender_name: !php/const IHelpShopping\Enum\EmailAddress::I_HELP_SHOPPING_NAME

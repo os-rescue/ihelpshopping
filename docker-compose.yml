@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  i-help-shopping-api:
+    image: ${CONTAINER_REGISTRY_BASE}
+    build:
+      context: ./
+      target: i_help_shopping
+    depends_on:
+      - db
+    external_links:
+      - rabbitmq
+    env_file:
+      - ./.env.local
+    volumes:
+      - ./:/srv/api:rw,cached
+    ports:
+      - "8080:80"
+    networks:
+      - api-net
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=i_help_shopping
+      - MYSQL_USER=i_help_shopping
+      - MYSQL_PASSWORD=myadmin
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - api-net
+
+networks:
+  api-net:
+    external:
+      name: api-net
+
+volumes:
+  db-data: {}
