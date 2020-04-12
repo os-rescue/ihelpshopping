@@ -93,4 +93,5 @@ security:
         - { path: ^/api/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/reset-password-request, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/users/get-data-by-token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/users, roles: IS_AUTHENTICATED_ANONYMOUSLY, methods: POST }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

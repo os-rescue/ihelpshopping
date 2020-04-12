@@ -191,6 +191,7 @@ class User extends BaseUser
         parent::__construct();
 
         $this->roles[] = UserInterface::ROLE_DEFAULT;
+        $this->enabled = true;
     }
 
     /**

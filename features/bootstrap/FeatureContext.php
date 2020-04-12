@@ -73,7 +73,7 @@ class FeatureContext extends MinkContext
         ];
 
         foreach ($commands as $id => $options) {
-            self::runCommand($application, $container->get($id), $options);
+            //self::runCommand($application, $container->get($id), $options);
         }
 
         $kernel->shutdown();
