@@ -25,9 +25,9 @@ class ShoppingItemContext implements Context
      */
     private $manager;
 
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $doctrine)
     {
-        $this->manager = $registry->getManager();
+        $this->manager = $doctrine->getManager();
     }
 
     /**
@@ -70,6 +70,21 @@ class ShoppingItemContext implements Context
             $body
         );
         $this->refreshCurrentTestShoppingItem($response);
+
+        return $response;
+    }
+
+    /**
+     * Deletes the current shopping item
+     *
+     * @Given I delete the current shopping item
+     */
+    public function iDeleteTheCurrentShoppingItem()
+    {
+        $response = $this->restContext->iSendARequestTo(
+            Request::METHOD_DELETE,
+            self::$currentTestShoppingItem['@id']
+        );
 
         return $response;
     }

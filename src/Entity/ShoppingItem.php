@@ -34,6 +34,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *     itemOperations={
  *         "get",
  *         "put",
+ *         "delete"
  *     }
  * )
  * @ORM\Table(
