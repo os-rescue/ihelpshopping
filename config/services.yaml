@@ -82,3 +82,8 @@ services:
             - '@swiftmailer.transport.eventdispatcher.mailjet'
             - '%env(MAILJET_PUBLIC_KEY)%'
             - '%env(MAILJET_SECRET_KEY)%'
+
+    IHelpShopping\EventListener\User\UserFilterConfigurator:
+        autoconfigure: false
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 5 }

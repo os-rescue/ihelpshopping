@@ -27,3 +27,5 @@ doctrine:
             softdeleteable:
                 class: Gedmo\SoftDeleteable\Filter\SoftDeleteableFilter
                 enabled: true
+            user_filter:
+                class: IHelpShopping\Filter\UserFilter

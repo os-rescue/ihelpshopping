@@ -2,13 +2,16 @@
 
 namespace IHelpShopping\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Gedmo\Blameable\Traits\Blameable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
 use IHelpShopping\Entity\User;
+use IHelpShopping\Annotation\UserAware;
 use IHelpShopping\Validator\Constraints as IHelpShoppingAssert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
@@ -37,6 +40,11 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *         "delete"
  *     }
  * )
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={"name": {"default_direction": "ASC"}},
+ *     arguments={"orderParameterName"="order"}
+ * )
  * @ORM\Table(
  *     name="ihs_shopping_item",
  *     indexes={
@@ -44,6 +52,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *     },
  * )
  * @ORM\Entity()
+ * @UserAware(userFieldName="created_by")
  *
  * @final
  */
