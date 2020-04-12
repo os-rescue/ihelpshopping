@@ -30,6 +30,6 @@ class TokenListener implements EventSubscriberInterface
             return;
         }
 
-        $this->container->get('security.token_storage')->reset();
+        $this->container->get('security.token_storage')->setToken(null);
     }
 }

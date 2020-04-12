@@ -139,7 +139,7 @@ Feature: Get Users
            "$id": "#/properties/account_type",
            "title": "The Account_type Schema",
            "type": ["string", "null"],
-           "enum": ["requester", "helper"],
+           "enum": [null, "requester", "helper"],
            "examples": [
              "requester"
            ]
