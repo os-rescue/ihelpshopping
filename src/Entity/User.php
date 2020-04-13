@@ -4,8 +4,10 @@ namespace IHelpShopping\Entity;
 
 use API\UserBundle\Model\User as BaseUser;
 use API\UserBundle\Model\UserInterface;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use IHelpShopping\Traits\UserNameTrait;
@@ -46,6 +48,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *         "put",
  *     }
  * )
+ * @ApiFilter(SearchFilter::class, properties={"isPending": "exact", "AccountType": "exact"})
  * @ORM\Table(
  *     name="ihs_user",
  *     indexes={
@@ -186,6 +189,12 @@ class User extends BaseUser
     protected $accountType;
 
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     * @Groups({"item_user_normalized"})
+     */
+    protected $nbPendingItems = 0;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -202,7 +211,6 @@ class User extends BaseUser
         parent::__construct();
 
         $this->roles[] = UserInterface::ROLE_DEFAULT;
-        $this->enabled = true;
     }
 
     /**
@@ -308,5 +316,14 @@ class User extends BaseUser
     public function isAdmin(): bool
     {
         return \in_array(self::ROLE_SUPER_ADMIN, $this->roles, true);
+    }
+
+    /**
+     * @ApiProperty(iri="http://schema.org/isPending")
+     * @Groups({"item_user_normalized", "collection_users_normalized"})
+     */
+    public function isPending(): bool
+    {
+        return 0 > $this->nbPendingItems;
     }
 }

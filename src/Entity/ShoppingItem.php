@@ -52,12 +52,16 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *     },
  * )
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks()
  * @UserAware(userFieldName="created_by")
  *
  * @final
  */
 class ShoppingItem
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_COMPLETE = 'complete';
+
     use Blameable;
     use Timestampable;
 
@@ -83,6 +87,21 @@ class ShoppingItem
     protected $name;
 
     /**
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="not_null")
+     * @Assert\NotBlank(message="not_blank")
+     * @Assert\Choice(
+     *     {ShoppingItem::STATUS_PENDING, ShoppingItem::STATUS_COMPLETE},
+     *     message="invalid"
+     * )
+     * @Groups({
+     *     "shopping_item_model",
+     *     "shopping_item_normalized",
+     * })
+     */
+    protected $status;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -102,6 +121,11 @@ class ShoppingItem
      */
     private $createdBy;
 
+    public function __construct()
+    {
+        $this->status = self::STATUS_PENDING;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -115,6 +139,18 @@ class ShoppingItem
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
