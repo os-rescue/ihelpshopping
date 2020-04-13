@@ -3,7 +3,7 @@ Feature: Get shopping items
   @loginAsUser1
   @setToken
   @secureClient
-  Scenario: Create the shopping item to be used in the next scenario
+  Scenario: Create one shopping item
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I create a current shopping item with body:
@@ -19,7 +19,7 @@ Feature: Get shopping items
 
   @setToken
   @secureClient
-  Scenario: Create the shopping item to be used in the next scenario
+  Scenario: Create one shopping item
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I create a current shopping item with body:
@@ -35,7 +35,7 @@ Feature: Get shopping items
 
   @setToken
   @secureClient
-  Scenario: Create the shopping item to be used in the next scenario
+  Scenario: Create one shopping item
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I create a current shopping item with body:

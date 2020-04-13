@@ -3,7 +3,7 @@ Feature: Create shopping item
   @loginAsUser1
   @setToken
   @secureClient
-  Scenario: Gets my profile
+  Scenario: Create shopping item
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/shopping_items" with body:
@@ -19,7 +19,7 @@ Feature: Create shopping item
 
   @setToken
   @secureClient
-  Scenario: Gets my profile
+  Scenario: I can't create a shopping item with empty name
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/shopping_items" with body:
@@ -37,7 +37,7 @@ Feature: Create shopping item
 
   @setToken
   @secureClient
-  Scenario: Gets my profile
+  Scenario: I can't create a shopping item with null name
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I send a "POST" request to "/api/shopping_items" with body:

@@ -7,6 +7,7 @@ use API\UserBundle\Model\UserInterface;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
@@ -48,7 +49,8 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *         "put",
  *     }
  * )
- * @ApiFilter(SearchFilter::class, properties={"pending": "exact", "accountType": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"accountType": "exact"})
+ * @ApiFilter(RangeFilter::class, properties={"nbPendingItems"})
  * @ORM\Table(
  *     name="ihs_user",
  *     indexes={
@@ -309,6 +311,18 @@ class User extends BaseUser
         return $this;
     }
 
+    public function getNbPendingItems(): int
+    {
+        return $this->nbPendingItems;
+    }
+
+    public function setNbPendingItems(int $nbPendingItems): self
+    {
+        $this->nbPendingItems = $nbPendingItems;
+
+        return $this;
+    }
+
     /**
      * @ApiProperty(iri="http://schema.org/admin")
      * @Groups({"item_user_normalized", "collection_users_normalized"})
@@ -316,14 +330,5 @@ class User extends BaseUser
     public function isAdmin(): bool
     {
         return \in_array(self::ROLE_SUPER_ADMIN, $this->roles, true);
-    }
-
-    /**
-     * @ApiProperty(iri="http://schema.org/pending")
-     * @Groups({"item_user_normalized", "collection_users_normalized"})
-     */
-    public function isPending(): bool
-    {
-        return 0 > $this->nbPendingItems;
     }
 }

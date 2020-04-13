@@ -52,10 +52,6 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *     },
  * )
  * @ORM\Entity()
- * @ORM\EntityListeners({
- *     "IHelpShopping\EventListener\ShoppingItem\NbPendingItemListener",
- * })
- * @ORM\HasLifecycleCallbacks()
  * @UserAware(userFieldName="created_by")
  *
  * @final

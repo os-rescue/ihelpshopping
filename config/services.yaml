@@ -87,3 +87,7 @@ services:
         autoconfigure: false
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 5 }
+
+    IHelpShopping\EventListener\ShoppingItem\NbPendingItemsSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, event: onFlush, priority: 100 }
