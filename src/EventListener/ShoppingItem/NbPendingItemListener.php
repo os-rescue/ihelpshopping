@@ -1,7 +1,8 @@
 <?php
 
-namespace Eqsgroup\EventListener\Policy;
+namespace IHelpShopping\EventListener\ShoppingItem;
 
+use Doctrine\ORM\Mapping as ORM;
 use IHelpShopping\Entity\ShoppingItem;
 
 final class NbPendingItemListener

@@ -48,7 +48,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *         "put",
  *     }
  * )
- * @ApiFilter(SearchFilter::class, properties={"isPending": "exact", "AccountType": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"pending": "exact", "accountType": "exact"})
  * @ORM\Table(
  *     name="ihs_user",
  *     indexes={
@@ -184,13 +184,13 @@ class User extends BaseUser
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Assert\Choice({User::ACCOUNT_TYPE_HELPER, User::ACCOUNT_TYPE_REQUESTER}, message="invalid")
-     * @Groups({"user_model", "item_user_normalized"})
+     * @Groups({"user_model", "item_user_normalized", "collection_users_normalized"})
      */
     protected $accountType;
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
-     * @Groups({"item_user_normalized"})
+     * @Groups({"item_user_normalized", "collection_users_normalized"})
      */
     protected $nbPendingItems = 0;
 
@@ -319,7 +319,7 @@ class User extends BaseUser
     }
 
     /**
-     * @ApiProperty(iri="http://schema.org/isPending")
+     * @ApiProperty(iri="http://schema.org/pending")
      * @Groups({"item_user_normalized", "collection_users_normalized"})
      */
     public function isPending(): bool
