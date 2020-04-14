@@ -27,6 +27,7 @@ class FeatureContext extends MinkContext
     public const TEST_ADMIN_1_EMAIL = 'admin1@test.com';
     public const TEST_USER_1_EMAIL = 'user1@test.com';
     public const TEST_USER_2_EMAIL = 'user2@test.com';
+    public const TEST_USER_3_EMAIL = 'user3@test.com';
     private const TEST_USER_PASSWORD = 'AAAbbb111#';
 
     private static $token;
@@ -107,7 +108,7 @@ class FeatureContext extends MinkContext
     /**
      * @BeforeScenario @loginAsUser1
      */
-    public function login()
+    public function loginAsUser1()
     {
         $this->loginCheck(self::TEST_USER_1_EMAIL, self::TEST_USER_PASSWORD);
     }
@@ -115,7 +116,15 @@ class FeatureContext extends MinkContext
     /**
      * @BeforeScenario @loginAsUser2
      */
-    public function loginAsSecondAdmin()
+    public function loginAsUser2()
+    {
+        $this->loginCheck(self::TEST_USER_2_EMAIL, self::TEST_USER_PASSWORD);
+    }
+
+    /**
+     * @BeforeScenario @loginAsUser3
+     */
+    public function loginAsUser3()
     {
         $this->loginCheck(self::TEST_USER_2_EMAIL, self::TEST_USER_PASSWORD);
     }

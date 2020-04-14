@@ -1,0 +1,70 @@
+@get_helper_requesters
+Feature: Get the list of requesters of one helper
+  @loginAsUser1
+  @setToken
+  Scenario: Gets the list of my requesters
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/users/me/requesters?order[name]"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:totalItems" should be equal to the number 0
+
+  @setToken
+  @secureClient
+  Scenario: Gets the list of my requesters
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a http request to add a set of requesters to my list with body pattern:
+    """
+      {
+        "requesters": [
+          {
+            "requester": "%user2@test.com%"
+          },
+          {
+            "requester": "%user3@test.com%"
+          }
+        ]
+      }
+    """
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+
+  @setToken
+  Scenario: Gets the list of my requesters
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/users/me/requesters?order[requester.firstName]"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:totalItems" should be equal to the number 2
+    And the JSON node "hydra:member[0].requester.first_name" should be equal to the string "User2"
+    And the JSON node "hydra:member[1].requester.first_name" should be equal to the string "User3"
+
+  @loginAsUser2
+  @setToken
+  Scenario: Gets the list of my helpers
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/users/me/helpers?order[helper.firstName]"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:totalItems" should be equal to the number 1
+    And the JSON node "hydra:member[0].helper.first_name" should be equal to the string "User1"
+
+  @loginAsUser3
+  @setToken
+  Scenario: Gets the list of my helpers
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/users/me/helpers?order[helper.firstName]"
+    Then the response status code should be 200
+    And the response should be in JSON
+    And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
+    And the JSON node "hydra:totalItems" should be equal to the number 1
+    And the JSON node "hydra:member[0].helper.first_name" should be equal to the string "User1"

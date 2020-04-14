@@ -10,6 +10,8 @@ default:
         - Behatch\Context\RestContext
         - ShoppingItemContext:
             doctrine: '@doctrine'
+        - UserContext:
+            doctrine: '@doctrine'
     user:
       contexts:
         - FeatureContext:
@@ -18,8 +20,10 @@ default:
             jwtManager: '@lexik_jwt_authentication.jwt_manager'
         - Behatch\Context\JsonContext
         - Behatch\Context\RestContext
+        - UserContext:
+            doctrine: '@doctrine'
       filters:
-        tags: '@get_users, @update_user'
+        tags: '@get_users, @update_user, @get_helper_requesters'
     shopping_item:
       contexts:
         - FeatureContext:
