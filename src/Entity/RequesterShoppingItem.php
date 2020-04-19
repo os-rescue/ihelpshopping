@@ -22,7 +22,11 @@ use Symfony\Component\Validator\Constraints\Uuid;
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={
- *              "groups"={"requester_shopping_item_normalized"},
+ *              "groups"={
+ *                  "requester_shopping_item_normalized",
+ *                  "requester_helpers",
+ *                  "helper_requesters",
+ *              },
  *              "enable_max_depth"=true
  *          },
  *          "denormalization_context"={
@@ -84,6 +88,8 @@ class RequesterShoppingItem
      * @Groups({
      *     "requester_shopping_item_model",
      *     "requester_shopping_item_normalized",
+     *     "helper_requesters",
+     *     "requester_helpers"
      * })
      */
     protected $name;
@@ -99,6 +105,8 @@ class RequesterShoppingItem
      * @Groups({
      *     "requester_shopping_item_model",
      *     "requester_shopping_item_normalized",
+     *     "helper_requesters",
+     *     "requester_helpers"
      * })
      */
     protected $status;

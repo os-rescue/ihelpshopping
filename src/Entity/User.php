@@ -32,6 +32,8 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *              "groups"={
  *                  "item_user_normalized",
  *                  "collection_users_normalized",
+ *                  "requester_helpers",
+ *                  "helper_requesters",
  *              },
  *              "enable_max_depth"=true
  *          },
@@ -123,7 +125,6 @@ class User extends BaseUser
      *     "user_model",
      *     "item_user_normalized",
      *     "collection_users_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -140,7 +141,6 @@ class User extends BaseUser
      *     "user_model",
      *     "item_user_normalized",
      *     "collection_users_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -154,7 +154,6 @@ class User extends BaseUser
      *     "user_model",
      *     "item_user_normalized",
      *     "collection_users_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -174,7 +173,6 @@ class User extends BaseUser
      * @Groups({
      *     "user_model",
      *     "item_user_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -186,7 +184,6 @@ class User extends BaseUser
      * @Groups({
      *     "user_model",
      *     "item_user_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -199,7 +196,6 @@ class User extends BaseUser
      * @Groups({
      *     "user_model",
      *     "item_user_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -212,7 +208,6 @@ class User extends BaseUser
      * @Groups({
      *     "user_model",
      *     "item_user_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -231,7 +226,6 @@ class User extends BaseUser
      * @Groups({
      *     "item_user_normalized",
      *     "collection_users_normalized",
-     *     "helper_requester_normalized",
      *     "requester_helpers",
      *     "helper_requesters",
      * })
@@ -427,7 +421,7 @@ class User extends BaseUser
     public function addHelper(HelperRequester $helper): self
     {
         if (!$this->helpers->contains($helper)) {
-            $this->helpers->dd($helper);
+            $this->helpers->add($helper);
             $helper->setRequester($this);
         }
 

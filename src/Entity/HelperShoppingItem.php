@@ -15,7 +15,10 @@ use Symfony\Component\Validator\Constraints\Uuid;
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={
- *              "groups"={"helper_shopping_item_normalized"},
+ *              "groups"={
+ *                  "requester_helpers",
+ *                  "helper_requesters",
+ *              },
  *              "enable_max_depth"=true
  *          },
  *          "denormalization_context"={
@@ -63,7 +66,12 @@ class HelperShoppingItem
     /**
      * @ORM\ManyToOne(targetEntity="IHelpShopping\Entity\RequesterShoppingItem")
      * @ORM\JoinColumn(name="requester_shopping_item_id", referencedColumnName="id", nullable=false)
-     * @Groups({"helper_shopping_item_model", "user_model"})
+     * @Groups({
+     *     "helper_shopping_item_model",
+     *     "user_model",
+     *     "helper_requesters",
+     *     "requester_helpers"
+     * })
      * @MaxDepth(1)
      */
     protected $requesterShoppingItem;
@@ -78,7 +86,8 @@ class HelperShoppingItem
      * )
      * @Groups({
      *     "helper_shopping_item_model",
-     *     "helper_shopping_item_normalized",
+     *     "helper_requesters",
+     *     "requester_helpers"
      * })
      */
     protected $status;

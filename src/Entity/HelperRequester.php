@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={
- *              "groups"={"helper_requester_normalized"},
+ *              "groups"={"helper_requesters", "requester_helpers"},
  *              "enable_max_depth"=true
  *          },
  *          "denormalization_context"={
@@ -77,7 +77,7 @@ class HelperRequester
     /**
      * @ORM\ManyToOne(targetEntity="IHelpShopping\Entity\User", inversedBy="requesters")
      * @ORM\JoinColumn(name="helper_id", referencedColumnName="id", nullable=false)
-     * @Groups({"user_model", "helper_requester_normalized", "requester_helpers"})
+     * @Groups({"user_model", "requester_helpers"})
      * @MaxDepth(1)
      */
     protected $helper;
@@ -85,7 +85,7 @@ class HelperRequester
     /**
      * @ORM\ManyToOne(targetEntity="IHelpShopping\Entity\User", inversedBy="helpers")
      * @ORM\JoinColumn(name="requester_id", referencedColumnName="id", nullable=false)
-     * @Groups({"user_model", "helper_requester_normalized", "helper_requesters"})
+     * @Groups({"user_model", "helper_requesters"})
      * @MaxDepth(1)
      */
     protected $requester;
@@ -100,7 +100,8 @@ class HelperRequester
      * )
      * @Groups({
      *     "helper_requester_model",
-     *     "helper_requester_normalized",
+     *     "helper_requesters",
+     *     "requester_helpers",
      * })
      */
     protected $status;
@@ -111,7 +112,11 @@ class HelperRequester
      *     mappedBy="helperRequester",
      *     cascade={"persist"}
      * )
-     * @Groups({"user_model"})
+     * @Groups({
+     *     "user_model",
+     *     "helper_requesters",
+     *     "requester_helpers",
+     * })
      * @ApiProperty(attributes={"fetchEager": false})
      */
     protected $helperShoppingItems;

@@ -91,3 +91,7 @@ services:
     IHelpShopping\EventListener\RequesterShoppingItem\NbPendingItemsSubscriber:
         tags:
             - { name: doctrine.event_subscriber, event: onFlush, priority: 100 }
+
+    IHelpShopping\EventListener\HelperRequester\HelperRequesterListener:
+        tags:
+            - { name: doctrine.event_subscriber, event: onFlush, priority: 95 }
