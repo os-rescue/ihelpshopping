@@ -126,7 +126,7 @@ class FeatureContext extends MinkContext
      */
     public function loginAsUser3()
     {
-        $this->loginCheck(self::TEST_USER_2_EMAIL, self::TEST_USER_PASSWORD);
+        $this->loginCheck(self::TEST_USER_3_EMAIL, self::TEST_USER_PASSWORD);
     }
 
     /**

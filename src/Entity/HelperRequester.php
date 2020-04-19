@@ -3,14 +3,16 @@
 namespace IHelpShopping\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\Timestampable;
 use IHelpShopping\Entity\User;
-use IHelpShopping\Annotation\UserAware;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,7 +49,7 @@ use Symfony\Component\Validator\Constraints\Uuid;
  * )
  * @ApiFilter(
  *     OrderFilter::class,
- *     properties={"requester.firstName", "helper.firstName"},
+ *     properties={"requester.firstName": "ASC", "helper.firstName": "ASC"},
  *     arguments={"orderParameterName"="order"},
  * )
  * @ORM\Table(
@@ -104,6 +106,17 @@ class HelperRequester
     protected $status;
 
     /**
+     * @ORM\OneToMany(
+     *     targetEntity="IHelpShopping\Entity\HelperShoppingItem",
+     *     mappedBy="helperRequester",
+     *     cascade={"persist"}
+     * )
+     * @Groups({"user_model"})
+     * @ApiProperty(attributes={"fetchEager": false})
+     */
+    protected $helperShoppingItems;
+
+    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
@@ -112,6 +125,7 @@ class HelperRequester
     public function __construct()
     {
         $this->status = self::STATUS_PENDING;
+        $this->helperShoppingItems = new ArrayCollection();
     }
 
     public function getId()
@@ -151,6 +165,36 @@ class HelperRequester
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HelperShoppingItem[]
+     */
+    public function getHelperShoppingItems(): Collection
+    {
+        return $this->helperShoppingItems;
+    }
+
+    public function addHelperShoppingItem(HelperShoppingItem $helperShoppingItem): self
+    {
+        if (!$this->helperShoppingItems->contains($helperShoppingItem)) {
+            $this->helperShoppingItems->add($helperShoppingItem);
+            $helperShoppingItem->setHelperRequester($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHelperShoppingItem(HelperShoppingItem $helperShoppingItem): self
+    {
+        if ($this->helperShoppingItems->contains($helperShoppingItem)) {
+            $this->helperShoppingItems->removeElement($helperShoppingItem);
+            if ($helperShoppingItem->getHelperRequester() === $this) {
+                $helperShoppingItem->setHelperRequester(null);
+            }
+        }
 
         return $this;
     }

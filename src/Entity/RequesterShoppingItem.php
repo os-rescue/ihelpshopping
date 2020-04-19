@@ -22,23 +22,27 @@ use Symfony\Component\Validator\Constraints\Uuid;
  * @ApiResource(
  *     attributes={
  *          "normalization_context"={
- *              "groups"={"shopping_item_normalized"},
+ *              "groups"={"requester_shopping_item_normalized"},
  *              "enable_max_depth"=true
  *          },
  *          "denormalization_context"={
- *              "groups"={"shopping_item_model"},
+ *              "groups"={"requester_shopping_item_model"},
  *              "allow_extra_attributes"=false,
  *          },
  *     },
  *     collectionOperations={
- *          "get",
  *          "post",
  *      },
  *     itemOperations={
  *         "get",
  *         "put",
  *         "delete"
- *     }
+ *     },
+ *     subresourceOperations={
+ *         "api_users_shopping_items_get_subresource"= {
+ *             "normalization_context"={"groups"={"requester_shopping_item_normalized"}},
+ *         }
+ *     },
  * )
  * @ApiFilter(
  *     OrderFilter::class,
@@ -46,17 +50,16 @@ use Symfony\Component\Validator\Constraints\Uuid;
  *     arguments={"orderParameterName"="order"}
  * )
  * @ORM\Table(
- *     name="ihs_shopping_item",
+ *     name="ihs_requester_shopping_item",
  *     indexes={
  *          @Index(name="name_idx", columns={"name"}),
  *     },
  * )
  * @ORM\Entity()
- * @UserAware(userFieldName="created_by")
  *
  * @final
  */
-class ShoppingItem
+class RequesterShoppingItem
 {
     public const STATUS_PENDING = 'pending';
     public const STATUS_COMPLETE = 'complete';
@@ -79,8 +82,8 @@ class ShoppingItem
      * @Assert\NotBlank(message="not_blank")
      * @IHelpShoppingAssert\Whitespace()
      * @Groups({
-     *     "shopping_item_model",
-     *     "shopping_item_normalized",
+     *     "requester_shopping_item_model",
+     *     "requester_shopping_item_normalized",
      * })
      */
     protected $name;
@@ -90,12 +93,12 @@ class ShoppingItem
      * @Assert\NotNull(message="not_null")
      * @Assert\NotBlank(message="not_blank")
      * @Assert\Choice(
-     *     {ShoppingItem::STATUS_PENDING, ShoppingItem::STATUS_COMPLETE},
+     *     {RequesterShoppingItem::STATUS_PENDING, RequesterShoppingItem::STATUS_COMPLETE},
      *     message="invalid"
      * )
      * @Groups({
-     *     "shopping_item_model",
-     *     "shopping_item_normalized",
+     *     "requester_shopping_item_model",
+     *     "requester_shopping_item_normalized",
      * })
      */
     protected $status;
@@ -114,7 +117,7 @@ class ShoppingItem
 
     /**
      * @Gedmo\Blameable(on="create")
-     * @ORM\ManyToOne(targetEntity="IHelpShopping\Entity\User")
+     * @ORM\ManyToOne(targetEntity="IHelpShopping\Entity\User", inversedBy="shoppingItems")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      * @MaxDepth(1)
      */
@@ -123,6 +126,11 @@ class ShoppingItem
     public function __construct()
     {
         $this->status = self::STATUS_PENDING;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
     }
 
     public function getId()

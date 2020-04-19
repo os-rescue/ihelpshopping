@@ -1,6 +1,6 @@
-@get_shopping_items
-Feature: Get shopping items
-  @loginAsUser1
+@get_requester_shopping_items
+Feature: Get requester shopping items
+  @loginAsUser2
   @setToken
   @secureClient
   Scenario: Create one shopping item
@@ -50,10 +50,17 @@ Feature: Get shopping items
     And the JSON node "name" should be equal to the string "bar"
 
   @setToken
+  Scenario: Get all shopping items
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/ld+json"
+    And I send a "GET" request to "/api/requester_shopping_items?order[name]=asc"
+    Then the response status code should be 405
+
+  @setToken
   Scenario: Get my shopping items
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/shopping_items?order[name]=asc"
+    And I send a "GET" request to "/api/users/me/shopping_items?order[name]=asc"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
@@ -62,12 +69,12 @@ Feature: Get shopping items
     And the JSON node "hydra:member[1].name" should be equal to the string "foo"
     And the JSON node "hydra:member[2].name" should be equal to the string "foobar"
 
-  @loginAsUser2
+  @loginAsUser3
   @setToken
   Scenario: Get my shopping items
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "GET" request to "/api/shopping_items?order[name]=asc"
+    And I send a "GET" request to "/api/users/me/shopping_items?order[name]=asc"
     Then the response status code should be 200
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"

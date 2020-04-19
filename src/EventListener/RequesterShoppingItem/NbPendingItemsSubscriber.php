@@ -1,11 +1,11 @@
 <?php
 
-namespace IHelpShopping\EventListener\ShoppingItem;
+namespace IHelpShopping\EventListener\RequesterShoppingItem;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
-use IHelpShopping\Entity\ShoppingItem;
+use IHelpShopping\Entity\RequesterShoppingItem;
 use IHelpShopping\Entity\User;
 
 final class NbPendingItemsSubscriber implements EventSubscriber
@@ -23,7 +23,7 @@ final class NbPendingItemsSubscriber implements EventSubscriber
         $uow = $em->getUnitOfWork();
 
         foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if (!$entity instanceof ShoppingItem) {
+            if (!$entity instanceof RequesterShoppingItem) {
                 continue;
             }
 

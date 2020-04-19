@@ -9,9 +9,9 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class ShoppingItemContext implements Context
+class RequesterShoppingItemContext implements Context
 {
-    private const RESOURCE_IRI = '/api/shopping_items';
+    private const RESOURCE_IRI = '/api/requester_shopping_items';
 
     private static $currentTestShoppingItem;
 

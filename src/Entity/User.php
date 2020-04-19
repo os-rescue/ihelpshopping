@@ -240,6 +240,16 @@ class User extends BaseUser
 
     /**
      * @ORM\OneToMany(
+     *     targetEntity="IHelpShopping\Entity\RequesterShoppingItem",
+     *     mappedBy="createdBy",
+     * )
+     * @ApiProperty(attributes={"fetchEager": false})
+     * @ApiSubresource(maxDepth=1)
+     */
+    protected $shoppingItems;
+
+    /**
+     * @ORM\OneToMany(
      *     targetEntity="IHelpShopping\Entity\HelperRequester",
      *     mappedBy="requester"
      * )
@@ -259,7 +269,6 @@ class User extends BaseUser
      * @ApiSubresource(maxDepth=1)
      */
     protected $requesters;
-
     /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
@@ -279,6 +288,7 @@ class User extends BaseUser
         $this->roles[] = UserInterface::ROLE_DEFAULT;
         $this->helpers = new ArrayCollection();
         $this->requesters = new ArrayCollection();
+        $this->shoppingItems = new ArrayCollection();
     }
 
     /**
@@ -387,6 +397,14 @@ class User extends BaseUser
         $this->nbPendingItems = $nbPendingItems;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|RequesterShoppingItem[]
+     */
+    public function getShoppingItems(): Collection
+    {
+        return $this->shoppingItems;
     }
 
     /**

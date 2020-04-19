@@ -1,9 +1,9 @@
-@delete_shopping_item
+@delete_requester_shopping_item
 Feature: Delete shopping item
   @loginAsUser1
   @setToken
   @secureClient
-  Scenario: Create the shopping item to be used in the next scenario
+  Scenario: Create the shopping item of the requester to be used in the next scenario
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
     And I create a current shopping item with body:

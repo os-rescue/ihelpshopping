@@ -1,6 +1,6 @@
 @get_pending_requesters
 Feature: Get pending requesters
-  @loginAsUser1
+  @loginAsUser3
   @setToken
   Scenario: Gets pending requesters
     When I add "Content-Type" header equal to "application/json"
@@ -43,7 +43,7 @@ Feature: Get pending requesters
   Scenario: Create one shopping item
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/ld+json"
-    And I send a "POST" request to "/api/shopping_items" with body:
+    And I send a "POST" request to "/api/requester_shopping_items" with body:
     """
       {
         "name": "foo"
@@ -72,7 +72,7 @@ Feature: Get pending requesters
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:totalItems" should be equal to the number 1
-    And the JSON node "hydra:member[0].first_name" should be equal to the string "User1"
+    And the JSON node "hydra:member[0].first_name" should be equal to the string "User3"
 
   @loginAsUser2
   @setToken
@@ -84,4 +84,4 @@ Feature: Get pending requesters
     And the response should be in JSON
     And the header "Content-Type" should be equal to "application/ld+json; charset=utf-8"
     And the JSON node "hydra:totalItems" should be equal to the number 1
-    And the JSON node "hydra:member[0].first_name" should be equal to the string "User1"
+    And the JSON node "hydra:member[0].first_name" should be equal to the string "User3"

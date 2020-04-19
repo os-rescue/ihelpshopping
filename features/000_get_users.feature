@@ -28,7 +28,8 @@ Feature: Get Users
          "phone_number",
          "mobile_number",
          "account_type",
-         "admin"
+         "admin",
+         "nb_pending_items"
        ],
        "properties": {
          "@context": {
@@ -158,6 +159,14 @@ Feature: Get Users
            "type": ["string", "null"],
            "examples": [
              "2020-02-18T10:50:41+00:00"
+           ]
+         },
+         "nb_pending_items": {
+           "$id": "#/properties/nb_pending_items",
+           "title": "The nb_pending_items Schema",
+           "type": ["integer"],
+           "examples": [
+             3
            ]
          }
        },
